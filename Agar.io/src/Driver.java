@@ -14,12 +14,14 @@ public class Driver extends JPanel implements MouseListener, ActionListener{
 	
 	//Create ArrayList for enemies
 	ArrayList<Enemy> enemies = new ArrayList<Enemy>();
-	Rectangle world = new Rectangle(-500, -500, 2000, 2000); //x ,y w, h 
+	Rectangle world = new Rectangle(-1000, -1000, 3000, 3000); //x ,y w, h 
 	
 	
 	public void paint(Graphics g) {
 		super.paintComponent(g); //proper redrawing of the entire screen
 		
+		//player cell
+	
 		
 		//call each Enemy to paint themselves
 		for (Enemy e: enemies) {
@@ -39,7 +41,7 @@ public class Driver extends JPanel implements MouseListener, ActionListener{
 
 	public Driver(){
 		JFrame frame = new JFrame("Agar.io");
-		frame.setSize(800,600);
+		frame.setSize(800,800);
 		frame.add(this);
 		
 		/* add 50  Enemies */

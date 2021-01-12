@@ -18,9 +18,19 @@ public class Cell { //class header
 	
 	public Cell() {
 		
+		int red = (int)(Math.random()*256);
+		int green = (int)(Math.random()*256);
+		int blue = (int)(Math.random()*256);
+		x = 1500;
+		y = 1500;
+		c = new Color(red, green, blue);
+		rad = 25;
+		
+		
 	}
 	
 	public void paint(Graphics g) {
+		g.setColor(c);
 		g.fillOval(x, y, rad, rad);
 	}
 

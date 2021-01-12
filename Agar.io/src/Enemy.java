@@ -8,7 +8,7 @@ public class Enemy {
 	private int rad; 
 	private Color c;
 	private boolean alive;
-	private int vx, vy;
+	private double vx, vy;
 	private double mass; 
 	private int cx, cy; //center point x y
 	Rectangle world = new Rectangle(-500, -500, 2000, 2000); //x ,y w, h 
@@ -16,6 +16,10 @@ public class Enemy {
 	public Enemy() {
 		//random radius
 		rad = (int)(Math.random()*50)+10;
+		
+		//spawn the enemy randomly anywhere on a 800x600 screen
+		x = (int)(Math.random()*800);
+		y = (int)(Math.random()*600);
 		
 		// center point
 		cx = x + rad;
@@ -28,20 +32,18 @@ public class Enemy {
 		//non zero value between -3,3
 		
 		while(vx == 0) {
-			vx = (int)((1/mass)*15000);
-			vx *= (int)(Math.random()*3)-1;
+			vx = (double)((1/mass)*9000);
+			vx *= (double)(Math.random()*3)-1;
 		}
 		
 		while(vy == 0) {
-			vy = (int)((1/mass)*15000);
-			vy *= (int)(Math.random()*3)-1;
+			vy = (double)((1/mass)*9000);
+			vy *= (double)(Math.random()*3)-1;
 		}
 		
 		
 				
-		//spawn the enemy randomly anywhere on a 800x600 screen
-		x = (int)(Math.random()*800);
-		y = (int)(Math.random()*600);
+	
 		
 		//generate a random color by generating random r,g,b values
 		int red = (int)(Math.random()*256);
@@ -60,10 +62,16 @@ public class Enemy {
 	     int yd = Math.abs(en2.getCy() - y);
 	     int rsum = en2.getRad() + rad;
 	     int distance = (int) Math.sqrt(((xd * xd) + (yd * yd)));
-	     return (distance < rsum);
+	     return (distance <= rsum);
 
 
     }
+	/*
+	public double newRadius(Enemy en3) {
+		
+	}
+	
+	*/
 	public Color getC() {
 		return c;
 	}
@@ -80,7 +88,7 @@ public class Enemy {
 		this.alive = alive;
 	}
 
-	public int getVx() {
+	public double getVx() {
 		return vx;
 	}
 
@@ -88,7 +96,7 @@ public class Enemy {
 		this.vx = vx;
 	}
 
-	public int getVy() {
+	public double getVy() {
 		return vy;
 	}
 
@@ -166,7 +174,7 @@ public class Enemy {
 		if(x >= world.getMaxX() || x<= world.getMinX()) {
 			vx *= -1;
 		}
-		if(y >= world.getMaxY() || x<= world.getMinY()) {
+		if(y >= world.getMaxY() || y<= world.getMinY()) {
 			vy *= -1;
 		}
 		
@@ -178,5 +186,7 @@ public class Enemy {
 	public void update() {
 		x+= vx;
 		y+= vy;
+		cx += vx;
+		cy += vy;
 	}
 }
