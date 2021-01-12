@@ -26,6 +26,8 @@ public class Cell { //class header
 		c = new Color(red, green, blue);
 		rad = 25;
 		
+		mass = (int) (Math.PI*rad*rad);
+		
 		
 	}
 	
