@@ -13,16 +13,15 @@ import javax.swing.Timer;
 public class Driver extends JPanel implements MouseListener, ActionListener{
 	
 	//Create ArrayList for enemies
+	Player player;
 	ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+	ArrayList<Food> foods = new ArrayList<Food>();
 	Rectangle world = new Rectangle(-1000, -1000, 3000, 3000); //x ,y w, h 
 	
 	
 	public void paint(Graphics g) {
 		super.paintComponent(g); //proper redrawing of the entire screen
-		
-		//player cell
 	
-		
 		//call each Enemy to paint themselves
 		for (Enemy e: enemies) {
             e.paint(g);
@@ -36,7 +35,12 @@ public class Driver extends JPanel implements MouseListener, ActionListener{
                 }
             }
         }
+		for(Food f: foods) {
+			f.paint(g);
+		}
 		
+		//player cell
+		player.paint(g);
 	}
 
 	public Driver(){
@@ -44,6 +48,12 @@ public class Driver extends JPanel implements MouseListener, ActionListener{
 		frame.setSize(800,800);
 		frame.add(this);
 		
+		player = new Player(); 
+		//Foods
+		for(int i=0; i<1000; i++) {
+			foods.add(new Food());
+			
+		}
 		/* add 50  Enemies */
 		for(int i =0 ; i < 50; i++) {
 			enemies.add( new Enemy() );

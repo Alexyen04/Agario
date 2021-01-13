@@ -11,7 +11,7 @@ public class Enemy {
 	private double vx, vy;
 	private double mass; 
 	private int cx, cy; //center point x y
-	Rectangle world = new Rectangle(-500, -500, 2000, 2000); //x ,y w, h 
+	Rectangle world = new Rectangle(-1000, -1000, 3000, 3000); //x ,y w, h 
 	
 	public Enemy() {
 		//random radius
@@ -32,12 +32,12 @@ public class Enemy {
 		//non zero value between -3,3
 		
 		while(vx == 0) {
-			vx = (double)((1/mass)*9000);
+			vx = (double)((1/mass)*10000);
 			vx *= (double)(Math.random()*3)-1;
 		}
 		
 		while(vy == 0) {
-			vy = (double)((1/mass)*9000);
+			vy = (double)((1/mass)*10000);
 			vy *= (double)(Math.random()*3)-1;
 		}
 		
