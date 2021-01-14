@@ -15,10 +15,10 @@ public class Player {
 		int red = (int)(Math.random()*256);
 		int green = (int)(Math.random()*256);
 		int blue = (int)(Math.random()*256);
-		x = 1500;
-		y = 1500;
+		x = 500;
+		y = 500;
 		c = new Color(red, green, blue);
-		rad = 25;
+		rad = 40;
 		
 		mass = (int) (Math.PI*rad*rad);
 		

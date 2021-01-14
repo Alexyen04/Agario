@@ -5,7 +5,7 @@ import java.awt.Rectangle;
 public class Enemy {
 
 	private int x, y;
-	private int rad; 
+	private double rad; 
 	private Color c;
 	private boolean alive;
 	private double vx, vy;
@@ -22,8 +22,8 @@ public class Enemy {
 		y = (int)(Math.random()*600);
 		
 		// center point
-		cx = x + rad;
-		cy = y + rad; 
+		cx = (int)(x + rad);
+		cy = (int)(y + rad); 
 		
 		//calculating mass
 		mass = Math.PI*rad*rad; 
@@ -32,12 +32,12 @@ public class Enemy {
 		//non zero value between -3,3
 		
 		while(vx == 0) {
-			vx = (double)((1/mass)*10000);
+			vx = (double)((1/mass)*9000);
 			vx *= (double)(Math.random()*3)-1;
 		}
 		
 		while(vy == 0) {
-			vy = (double)((1/mass)*10000);
+			vy = (double)((1/mass)*9000);
 			vy *= (double)(Math.random()*3)-1;
 		}
 		
@@ -55,23 +55,70 @@ public class Enemy {
 		
 		
 	}
-	//collision code
-	
-	public boolean collides(Enemy en2) {
-		 int xd = Math.abs(en2.getCx() - x);
-	     int yd = Math.abs(en2.getCy() - y);
-	     int rsum = en2.getRad() + rad;
-	     int distance = (int) Math.sqrt(((xd * xd) + (yd * yd)));
-	     return (distance <= rsum);
-
-
-    }
-	/*
-	public double newRadius(Enemy en3) {
+	public void massToRad(Enemy e) {
+		double fMass = (double) (e.getMass()+mass);
+		e.setRad(Math.sqrt(fMass/Math.PI));
 		
 	}
 	
-	*/
+	public boolean collides(Enemy en2) {
+		int xd = Math.abs(en2.getCx() - x);
+	    int yd = Math.abs(en2.getCy() - y);
+	    int rdiff = (int)(Math.abs(en2.getRad()-rad));
+	    int distance = (int) Math.sqrt(((xd * xd) + (yd * yd)));
+	    return (distance <= rdiff);
+
+
+
+    }
+	
+	public void paint(Graphics g) {
+		update();
+		g.setColor(c);
+		g.fillOval(x, y, (int)rad*2, (int)rad*2);
+		
+		
+		/*have the enemy object bounce off the rectangle borders
+		 * using the helper methods (getters) for minx maxx etc.
+		 */
+
+		
+		if(x+(rad*2)>= world.getMaxX() || x<= world.getMinX()) {
+			vx *= -1;
+		}
+		if(y>= world.getMaxY() || y-(rad*2)<= world.getMinY()) {
+			vy *= -1;
+		}
+		
+		
+		//enemy collision
+		
+	}
+	
+	public int getX() {
+		return x;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
+
+	public double getRad() {
+		return rad;
+	}
+
+	public void setRad(double rad) {
+		this.rad = rad;
+	}
+
 	public Color getC() {
 		return c;
 	}
@@ -92,7 +139,7 @@ public class Enemy {
 		return vx;
 	}
 
-	public void setVx(int vx) {
+	public void setVx(double vx) {
 		this.vx = vx;
 	}
 
@@ -100,7 +147,7 @@ public class Enemy {
 		return vy;
 	}
 
-	public void setVy(int vy) {
+	public void setVy(double vy) {
 		this.vy = vy;
 	}
 
@@ -136,53 +183,6 @@ public class Enemy {
 		this.world = world;
 	}
 
-	public int getX() {
-		return x;
-	}
-
-	public void setX(int x) {
-		this.x = x;
-	}
-
-	public int getY() {
-		return y;
-	}
-
-	public void setY(int y) {
-		this.y = y;
-	}
-
-	public int getRad() {
-		return rad;
-	}
-
-	public void setRad(int rad) {
-		this.rad = rad;
-	}
-
-	public void paint(Graphics g) {
-		update();
-		g.setColor(c);
-		g.fillOval(x, y, rad*2, rad*2);
-		
-		
-		/*have the enemy object bounce off the rectangle borders
-		 * using the helper methods (getters) for minx maxx etc.
-		 */
-
-		
-		if(x >= world.getMaxX() || x<= world.getMinX()) {
-			vx *= -1;
-		}
-		if(y >= world.getMaxY() || y<= world.getMinY()) {
-			vy *= -1;
-		}
-		
-		
-		//enemy collision
-		
-	}
-	
 	public void update() {
 		x+= vx;
 		y+= vy;
