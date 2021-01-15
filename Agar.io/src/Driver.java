@@ -28,7 +28,7 @@ public class Driver extends JPanel implements MouseListener, ActionListener{
 			for(Enemy b: enemies) {
 				if(a.collides(b)) {
 					a.massToRad(b);
-					a.setRad(0);
+					foods.remove(a);
 				}
 			}
 		}
@@ -38,11 +38,11 @@ public class Driver extends JPanel implements MouseListener, ActionListener{
             for (Enemy f: enemies) {
                 if (f.collides(e)) {
                     if (f.getMass() > e.getMass()) {
-                    	e.massToRad(f);
-                        e.setRad(0);
+                    	f.setMass(e.getMass()+f.getMass());
+                        enemies.remove(e);
                     } else if (e.getMass() > f.getMass()) {
-                    	f.massToRad(e);
-                        f.setRad(0);
+                    	e.setMass(e.getMass()+f.getMass());
+                        enemies.remove(f);
                     }
                 }
             }
@@ -55,7 +55,7 @@ public class Driver extends JPanel implements MouseListener, ActionListener{
 
 	public Driver(){
 		JFrame frame = new JFrame("Agar.io");
-		frame.setSize(1000,1000);
+		frame.setSize(1500,1000);
 		frame.add(this);
 		
 		
@@ -65,7 +65,7 @@ public class Driver extends JPanel implements MouseListener, ActionListener{
 			
 		}
 		/* add 50  Enemies */
-		for(int i =0 ; i < 50; i++) {
+		for(int i =0 ; i < 40; i++) {
 			enemies.add( new Enemy() );
 		}	
 		

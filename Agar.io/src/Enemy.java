@@ -11,15 +11,15 @@ public class Enemy {
 	private double vx, vy;
 	private double mass; 
 	private int cx, cy; //center point x y
-	Rectangle world = new Rectangle(-1000, -1000, 3000, 3000); //x ,y w, h 
+	Rectangle world = new Rectangle(0, 0, 1500, 1500); //x ,y w, h 
 	
 	public Enemy() {
 		//random radius
 		rad = (int)(Math.random()*50)+10;
 		
 		//spawn the enemy randomly anywhere on a 800x600 screen
-		x = (int)(Math.random()*800);
-		y = (int)(Math.random()*600);
+		x = (int)(Math.random()*1000+300);
+		y = (int)(Math.random()*1000+300);
 		
 		// center point
 		cx = (int)(x + rad);
@@ -32,13 +32,13 @@ public class Enemy {
 		//non zero value between -3,3
 		
 		while(vx == 0) {
-			vx = (double)((1/mass)*9000);
-			vx *= (double)(Math.random()*3)-1;
+			vx = (int)((150/rad)+2);
+			vx *= (int)(Math.random()*3)-1;
 		}
 		
 		while(vy == 0) {
-			vy = (double)((1/mass)*9000);
-			vy *= (double)(Math.random()*3)-1;
+			vy = (int)((150/rad)+2);
+			vy *= (int)(Math.random()*3)-1;
 		}
 		
 		
@@ -55,18 +55,20 @@ public class Enemy {
 		
 		
 	}
+	/*
 	public void massToRad(Enemy e) {
-		double fMass = (double) (e.getMass()+mass);
-		e.setRad(Math.sqrt(fMass/Math.PI));
+		mass += e.getMass();
+		e.setRad(Math.sqrt(mass/Math.PI));
 		
 	}
+	*/
 	
 	public boolean collides(Enemy en2) {
-		int xd = Math.abs(en2.getCx() - x);
-	    int yd = Math.abs(en2.getCy() - y);
+		int xd = Math.abs(en2.getCx() - cx);
+	    int yd = Math.abs(en2.getCy() - cy);
 	    int rdiff = (int)(Math.abs(en2.getRad()-rad));
 	    int distance = (int) Math.sqrt(((xd * xd) + (yd * yd)));
-	    return (distance <= rdiff);
+	    return (distance < rdiff);
 
 
 
@@ -83,14 +85,16 @@ public class Enemy {
 		 */
 
 		
-		if(x+(rad*2)>= world.getMaxX() || x<= world.getMinX()) {
-			vx *= -1;
+		if(x <= world.getMinX() || x+(rad*2)>= world.getMaxX()) {
+			vx*=-1;
 		}
-		if(y>= world.getMaxY() || y-(rad*2)<= world.getMinY()) {
-			vy *= -1;
+		if(y <= world.getMinY() || y+(rad*2) >= world.getMaxY()) {
+			vy*=-1;
 		}
-		
-		
+		if(x <= 0 && y <= 0) {
+			x +=5;
+			y +=5;
+		}
 		//enemy collision
 		
 	}
@@ -184,6 +188,7 @@ public class Enemy {
 	}
 
 	public void update() {
+		rad = (Math.sqrt(mass/Math.PI));
 		x+= vx;
 		y+= vy;
 		cx += vx;
