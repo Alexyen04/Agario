@@ -1,4 +1,5 @@
 import java.awt.Graphics;
+import java.awt.MouseInfo;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,12 +17,39 @@ public class Driver extends JPanel implements MouseListener, ActionListener{
 	Player player = new Player();
 	ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 	ArrayList<Food> foods = new ArrayList<Food>();
-	Rectangle world = new Rectangle(-1000, -1000, 3000, 3000); //x ,y w, h 
+	Rectangle world = new Rectangle(0, 0, 1500, 1500); //x ,y w, h 
 	
 	
 	public void paint(Graphics g) {
 		super.paintComponent(g); //proper redrawing of the entire screen
-	
+		
+		//mouse stuff
+		double mx = MouseInfo.getPointerInfo().getLocation().getX();
+		double my = MouseInfo.getPointerInfo().getLocation().getY();
+		 
+		double dx = (mx-player.getCx());
+	    double dy = (my-player.getCy());
+	    
+	    double theta = Math.atan(Math.abs(dx)/Math.abs(dy));
+	    
+	    double playerMassV = 150/player.getRad();
+	    
+	    if(dx > 0) {
+	    	player.setVx(playerMassV*Math.sin(theta));
+	    }
+	    if(dx < 0) {
+	    	player.setVx(-1*playerMassV*Math.sin(theta));
+	    }
+	    
+	    if(dy > 0) {
+	    	player.setVy(playerMassV*Math.cos(theta));
+	    }
+	    if(dy < 0) {
+	    	player.setVy(-1*playerMassV*Math.cos(theta));
+	    }
+	    
+	    
+	    
 		//call each Enemy to paint themselves
 		for(Food a: foods) {
 			a.paint(g);
