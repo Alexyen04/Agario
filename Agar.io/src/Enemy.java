@@ -55,13 +55,7 @@ public class Enemy {
 		
 		
 	}
-	/*
-	public void massToRad(Enemy e) {
-		mass += e.getMass();
-		e.setRad(Math.sqrt(mass/Math.PI));
-		
-	}
-	*/
+	
 	
 	public boolean collides(Enemy en2) {
 		int xd = Math.abs(en2.getCx() - cx);
@@ -193,5 +187,17 @@ public class Enemy {
 		y+= vy;
 		cx += vx;
 		cy += vy;
+		if(vx > 0) {
+			vx = (150/rad) +1;
+		}
+		if(vx < 0) {
+			vx = -(150/rad)-1;
+		}
+		if(vy > 0) {
+			vy = (150/rad) +1;
+		}
+		if(vy < 0) {
+			vy = -(150/rad)-1; 
+		}
 	}
 }

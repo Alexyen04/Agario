@@ -8,6 +8,7 @@ public class Food {
 	private boolean alive;
 	private double mass; 
 	private int cx, cy; //center point x y
+	private double vx, vy;
 	
 	public Food () {
 		x = (int)(Math.random()*4000+-1000);
@@ -15,6 +16,8 @@ public class Food {
 		rad = 5;
 		cx = (int)(x + rad);
 		cy = (int)(y + rad); 
+		vx = 0;
+		vy = 0;
 		int red = (int)(Math.random()*256);
 		int green = (int)(Math.random()*256);
 		int blue = (int)(Math.random()*256);
@@ -27,6 +30,7 @@ public class Food {
 		e.setRad(Math.sqrt(fMass/Math.PI));
 		
 	}
+	
 	public boolean collides(Enemy e) {
 		int xd = Math.abs(e.getCx() - x);
 	    int yd = Math.abs(e.getCy() - y);
@@ -36,6 +40,21 @@ public class Food {
 
 	}
 	
+	public double getVx() {
+		return vx;
+	}
+	public void setVx(double d) {
+		this.vx = d;
+	}
+	public double getVy() {
+		return vy;
+	}
+	public void setVy(double vy) {
+		this.vy = vy;
+	}
+	public void setMass(double mass) {
+		this.mass = mass;
+	}
 	public int getCx() {
 		return cx;
 	}
@@ -68,8 +87,8 @@ public class Food {
 		return rad;
 	}
 
-	public void setRad(int rad) {
-		this.rad = rad;
+	public void setRad(double d) {
+		this.rad = d;
 	}
 
 	public Color getC() {
@@ -97,7 +116,14 @@ public class Food {
 	}
 
 	public void paint(Graphics g) {
+		update();
 		g.setColor(c);
 		g.fillOval(x, y, (int)rad*2, (int)rad*2);
+	}
+	public void update() {
+		x += vx;
+		y += vy;
+		cx += vx;
+		cy += vy;
 	}
 }

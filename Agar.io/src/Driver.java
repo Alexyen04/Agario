@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.MouseInfo;
 import java.awt.Rectangle;
@@ -23,6 +24,7 @@ public class Driver extends JPanel implements MouseListener, ActionListener{
 	public void paint(Graphics g) {
 		super.paintComponent(g); //proper redrawing of the entire screen
 		
+		
 		//mouse stuff
 		double mx = MouseInfo.getPointerInfo().getLocation().getX();
 		double my = MouseInfo.getPointerInfo().getLocation().getY();
@@ -32,37 +34,57 @@ public class Driver extends JPanel implements MouseListener, ActionListener{
 	    
 	    double theta = Math.atan(Math.abs(dx)/Math.abs(dy));
 	    
-	    double playerMassV = 150/player.getRad();
-	    
-	    if(dx > 0) {
-	    	player.setVx(playerMassV*Math.sin(theta));
+	    double vx =0;
+	    double vy =0;
+	    //q1
+	    if(dx > 0 && dy <0) {
+	    	vx = (-1*player.getVelmult()*Math.sin(theta));
+	    	vy = (player.getVelmult()*Math.cos(theta));
 	    }
-	    if(dx < 0) {
-	    	player.setVx(-1*playerMassV*Math.sin(theta));
-	    }
+	    // q2
+	    if(dx < 0 && dy <0) {
+	    	vx = (player.getVelmult()*Math.sin(theta));
+	    	vy = (player.getVelmult()*Math.cos(theta));
+	    }	  
 	    
-	    if(dy > 0) {
-	    	player.setVy(playerMassV*Math.cos(theta));
+	    //q3
+	    if(dx < 0 && dy >0) {
+	    	vx = (player.getVelmult()*Math.sin(theta));
+	    	vy = (-1*player.getVelmult()*Math.cos(theta));
+	    }		    
+	    //q4
+	    if(dx > 0 && dy >0) {
+	    	vx = (-1*player.getVelmult()*Math.sin(theta));
+	    	vy = (-1*player.getVelmult()*Math.cos(theta));
 	    }
-	    if(dy < 0) {
-	    	player.setVy(-1*playerMassV*Math.cos(theta));
-	    }
-	    
-	    
+		//border
+		Color c = new Color(255, 0, 0);
+		g.setColor(c);
+	    g.drawRect(0, 0, 1500, 1500);
 	    
 		//call each Enemy to paint themselves
 		for(Food a: foods) {
 			a.paint(g);
+			a.setVx(vx);
+			a.setVy(vy);
+			//System.out.println(vx + " + " + vy);
+			//System.out.println(dx + " + " + dy);
 			for(Enemy b: enemies) {
 				if(a.collides(b)) {
 					a.massToRad(b);
 					foods.remove(a);
 				}
 			}
+			if(player.collides(a)) {
+				player.setMass(player.getMass() + a.getMass());
+				foods.remove(a);
+			}
 		}
 		//eating the food / enemies messes up the total mass
 		for (Enemy e: enemies) {
             e.paint(g);
+			e.setVx(e.getVx() + vx);
+			e.setVy(e.getVy() + vy);
             for (Enemy f: enemies) {
                 if (f.collides(e)) {
                     if (f.getMass() > e.getMass()) {
@@ -76,14 +98,15 @@ public class Driver extends JPanel implements MouseListener, ActionListener{
             }
             
         }
-		
-		//player cell
+		//player 
 		player.paint(g);
+		
 	}
+	
 
 	public Driver(){
 		JFrame frame = new JFrame("Agar.io");
-		frame.setSize(1500,1000);
+		frame.setSize(1500,900);
 		frame.add(this);
 		
 		

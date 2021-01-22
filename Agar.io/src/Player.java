@@ -4,49 +4,66 @@ import java.awt.Rectangle;
 
 public class Player {
 	private int x, y;
-	private int cx, cy;
-	private int rad; 
+	private double cx, cy;
+	private double rad; 
 	private Color c;
 	private boolean alive;
 	private double vx, vy;
-	private int mass; 
+	private double mass; 
+	private double velMult;
 	Rectangle world = new Rectangle(0, 0, 1500, 1500); //x ,y w, h 
 	
 	public Player () {
 		int red = (int)(Math.random()*256);
 		int green = (int)(Math.random()*256);
 		int blue = (int)(Math.random()*256);
-		cx = x+rad;
-		cy = y+rad;
+		rad = 40;
 		x = 500;
 		y = 500;
+		cx = x+rad;
+		cy = y+rad;
 		c = new Color(red, green, blue);
-		rad = 40;
+		
 		vx = 0;
 		vy = 0;
 		mass = (int) (Math.PI*rad*rad);
-		
+		velMult = 150/rad;
 	}
 	
 	public void paint(Graphics g) {
 		update();
 		g.setColor(c);
-		g.fillOval(x, y, rad, rad);
+		g.fillOval(x, y, (int)rad, (int)rad);
 	}
-	
-	public int getCx() {
+	public boolean collides(Food e) {
+		int xd = Math.abs(e.getCx() - x);
+	    int yd = Math.abs(e.getCy() - y);
+	    int rdiff = (int)(Math.abs(e.getRad()-rad));
+	    int distance = (int) Math.sqrt(((xd * xd) + (yd * yd)));
+	    return (distance <= rdiff);
+
+	}
+	public double getVelmult() {
+		return velMult;
+	}
+
+	public void setVelmult(double velmult) {
+		this.velMult = velmult;
+	}
+
+	public double getCx() {
 		return cx;
 	}
 
-	public void setCx(int cx) {
+	public void setCx(double cx) {
 		this.cx = cx;
 	}
 
-	public int getCy() {
+	public double getCy() {
 		return cy;
 	}
 
-	public void setCy(int cy) {
+	public void setCy(double cy) {
 		this.cy = cy;
 	}
 
@@ -70,10 +87,10 @@ public class Player {
 	public void setY(int y) {
 		this.y = y;
 	}
-	public int getRad() {
+	public double getRad() {
 		return rad;
 	}
-	public void setRad(int rad) {
+	public void setRad(double rad) {
 		this.rad = rad;
 	}
 	public Color getC() {
@@ -100,16 +117,15 @@ public class Player {
 	public void setVy(double vy) {
 		this.vy = vy;
 	}
-	public int getMass() {
+	public double getMass() {
 		return mass;
 	}
-	public void setMass(int mass) {
-		this.mass = mass;
+	public void setMass(double d) {
+		this.mass = d;
 	}
 	
 	public void update() {
-		x += vx;
-		y += vy;
+	
 		rad = (int)Math.sqrt(mass/Math.PI);
 		
 	}
