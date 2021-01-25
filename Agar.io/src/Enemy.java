@@ -200,4 +200,8 @@ public class Enemy {
 			vy = -(150/rad)-1; 
 		}
 	}
+	public void updatePos(int vx, int vy) {
+		x -= vx;
+		y -= vy;
+	}
 }

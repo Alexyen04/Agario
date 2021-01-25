@@ -34,28 +34,28 @@ public class Driver extends JPanel implements MouseListener, ActionListener{
 	    
 	    double theta = Math.atan(Math.abs(dx)/Math.abs(dy));
 	    
-	    double vx =0;
-	    double vy =0;
+	    int vx =0;
+	    int vy =0;
 	    //q1
 	    if(dx > 0 && dy <0) {
-	    	vx = (-1*player.getVelmult()*Math.sin(theta));
-	    	vy = (player.getVelmult()*Math.cos(theta));
+	    	vx = (int)(-1*player.getVelmult()*Math.sin(theta));
+	    	vy = (int)(player.getVelmult()*Math.cos(theta));
 	    }
 	    // q2
 	    if(dx < 0 && dy <0) {
-	    	vx = (player.getVelmult()*Math.sin(theta));
-	    	vy = (player.getVelmult()*Math.cos(theta));
+	    	vx = (int)(player.getVelmult()*Math.sin(theta));
+	    	vy = (int)(player.getVelmult()*Math.cos(theta));
 	    }	  
 	    
 	    //q3
 	    if(dx < 0 && dy >0) {
-	    	vx = (player.getVelmult()*Math.sin(theta));
-	    	vy = (-1*player.getVelmult()*Math.cos(theta));
+	    	vx = (int)(player.getVelmult()*Math.sin(theta));
+	    	vy = (int)(-1*player.getVelmult()*Math.cos(theta));
 	    }		    
 	    //q4
 	    if(dx > 0 && dy >0) {
-	    	vx = (-1*player.getVelmult()*Math.sin(theta));
-	    	vy = (-1*player.getVelmult()*Math.cos(theta));
+	    	vx = (int)(-1*player.getVelmult()*Math.sin(theta));
+	    	vy = (int)(-1*player.getVelmult()*Math.cos(theta));
 	    }
 		//border
 		Color c = new Color(255, 0, 0);
@@ -82,6 +82,7 @@ public class Driver extends JPanel implements MouseListener, ActionListener{
 		}
 		//eating the food / enemies messes up the total mass
 		for (Enemy e: enemies) {
+			e.updatePos(vx, vy);
             e.paint(g);
 			e.setVx(e.getVx() + vx);
 			e.setVy(e.getVy() + vy);
@@ -135,6 +136,8 @@ public class Driver extends JPanel implements MouseListener, ActionListener{
 		Driver d = new Driver();
 	}
 	
+	
+	
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
 		// TODO Auto-generated method stub
@@ -171,4 +174,5 @@ public class Driver extends JPanel implements MouseListener, ActionListener{
 		repaint(); //time will invoke this method which then refreshes the screen
 					//for the "animation"
 	}
+	
 }
