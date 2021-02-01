@@ -15,12 +15,17 @@ public class Enemy {
 	
 	public Enemy() {
 		//random radius
-		rad = (int)(Math.random()*50)+10;
+		rad = (int)(Math.random()*30)+10;
 		
 		//spawn the enemy randomly anywhere on a 800x600 screen
-		x = (int)(Math.random()*1000+300);
-		y = (int)(Math.random()*1000+300);
-		
+		x = (int)(Math.random()*1500+100);
+		if(x > 600 && x < 900) {
+			x = (int)(Math.random()*1500+100);
+		}
+		y = (int)(Math.random()*900+100);
+		if(y > 300 && y < 600) {
+			y = (int)(Math.random()*900+100);
+		}
 		// center point
 		cx = (int)(x + rad);
 		cy = (int)(y + rad); 
@@ -32,12 +37,12 @@ public class Enemy {
 		//non zero value between -3,3
 		
 		while(vx == 0) {
-			vx = (int)((150/rad)+2);
+			vx = (int)((200/rad)+1);
 			vx *= (int)(Math.random()*3)-1;
 		}
 		
 		while(vy == 0) {
-			vy = (int)((150/rad)+2);
+			vy = (int)((200/rad)+1);
 			vy *= (int)(Math.random()*3)-1;
 		}
 		
@@ -67,6 +72,7 @@ public class Enemy {
 
 
     }
+	
 	
 	public void paint(Graphics g) {
 		update();

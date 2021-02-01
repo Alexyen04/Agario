@@ -18,8 +18,8 @@ public class Player {
 		int green = (int)(Math.random()*256);
 		int blue = (int)(Math.random()*256);
 		rad = 40;
-		x = 500;
-		y = 500;
+		x = 750;
+		y = 450;
 		cx = x+rad;
 		cy = y+rad;
 		c = new Color(red, green, blue);
@@ -28,14 +28,24 @@ public class Player {
 		vy = 0;
 		mass = (int) (Math.PI*rad*rad);
 		velMult = 150/rad;
+		alive = true;
 	}
 	
 	public void paint(Graphics g) {
 		update();
 		g.setColor(c);
 		g.fillOval(x, y, (int)rad, (int)rad);
+		
 	}
 	public boolean collides(Food e) {
+		int xd = Math.abs(e.getCx() - x);
+	    int yd = Math.abs(e.getCy() - y);
+	    int rdiff = (int)(Math.abs(e.getRad()-rad));
+	    int distance = (int) Math.sqrt(((xd * xd) + (yd * yd)));
+	    return (distance <= rdiff);
+
+	}
+	public boolean collide(Enemy e) {
 		int xd = Math.abs(e.getCx() - x);
 	    int yd = Math.abs(e.getCy() - y);
 	    int rdiff = (int)(Math.abs(e.getRad()-rad));

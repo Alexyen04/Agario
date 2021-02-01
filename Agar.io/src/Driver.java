@@ -79,6 +79,7 @@ public class Driver extends JPanel implements MouseListener, ActionListener{
 				player.setMass(player.getMass() + a.getMass());
 				foods.remove(a);
 			}
+			
 		}
 		//eating the food / enemies messes up the total mass
 		for (Enemy e: enemies) {
@@ -96,11 +97,25 @@ public class Driver extends JPanel implements MouseListener, ActionListener{
                         enemies.remove(f);
                     }
                 }
+                
             }
             
         }
 		//player 
+		
 		player.paint(g);
+		for(Enemy p: enemies) {
+			if(player.collide(p)) {
+            	if(p.getMass() > player.getMass()) {
+            		p.setMass(player.getMass()+p.getMass());
+            		player.setMass(0);
+            		player.setRad(0);
+            	}else if(player.getMass() > p.getMass()) {
+            		player.setMass(p.getMass()+player.getMass());
+            		enemies.remove(p);
+            	}
+            }
+		}
 		
 	}
 	
